@@ -1,74 +1,122 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Net.Http.Json;
-using Tamagotchi;
-using Tamagotchi.Views;
+﻿using Tamagotchi.Views;
 using Tamagotchi.Services;
 
 namespace Tamagotchi.Controllers
 {
     public class TamagotchiController
     {
+        public static string Username { get; set; }
+        private char option {get; set;}
 
-        public void Play(List<Creature> defaultCreatureList)
+        public void Play(List<string> defaultCreatures)
         {
 
-            TamagotchiView view = new TamagotchiView();
-            Creature creature = new Creature();
-            List<Creature> myCreatures = new List<Creature>();
-            string userName;
+            TamagotchiView.WelcomeMenu();
+            Username = Console.ReadLine();
 
+
+            while (option != 'X')
+            {
+                TamagotchiView.MainMenu(Username);
+                option = char.Parse(Console.ReadLine().ToUpper());
+
+                switch (option)
+                {
+                    case '1':
+                        {
+                            AdoptCreatureController.AdoptCreature();
+                            break;
+                        }
+
+                    case '2':
+                        {
+
+                            break;
+                        }
+
+                    case 'X':
+                        {
+                            TamagotchiView.Exit(Username);
+                            break;
+                        }
+
+
+
+
+                }
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            /*
+            List<Creature> myCreatures = new List<Creature>();
             char opt = 'a';
             char subopt = 'a';
 
-            
-
-            view.WelcomeMenu();
-            userName = Console.ReadLine();
+            TamagotchiView.WelcomeMenu();
+            string userName = Console.ReadLine();
 
 
-            
             while (opt != 'x')
             {
-                view.MainMenu(userName);
+                TamagotchiView.MainMenu(userName);
                 opt = char.Parse(Console.ReadLine());
+
+
 
                 switch (opt)
                 {
                     case '1':
                         {
-                            view.AdoptNewCreatureMenu(userName, defaultCreatureList);
+                            TamagotchiView.AdoptCreatureMenu(userName);
 
                             subopt = char.Parse(Console.ReadLine().ToUpper());
 
                             if (char.IsDigit(subopt))
                             {
                                 int digit = subopt - '0';
-                                creature = defaultCreatureList[digit - 1];
+                                Creature creature = await TamagotchiService.GetCreatureJsonObjAsync(defaultCreatures[digit - 1]);
+
 
 
                                 char subopt2 = '1';
                                 while (subopt2 == '1')
                                 {
-
-                                    view.SelectedCreatureMenu(userName, creature);
+                                    TamagotchiView.SelectedCreatureMenu(userName, creature);
                                     subopt2 = char.Parse(Console.ReadLine().ToUpper());
 
                                     switch (subopt2)
                                     {
                                         case '1':
                                             {
-                                                view.ViewCreatureDetailsSubMenu(creature);
+                                                TamagotchiView.ViewCreatureDetailsSubMenu(creature);
                                                 break;
                                             }
 
                                         case '2':
                                             {
-                                                view.AdoptSubMenu(myCreatures, creature);
-
+                                                TamagotchiView.AdoptSubMenu(myCreatures, creature);
                                                 break;
                                             }
 
@@ -91,26 +139,25 @@ namespace Tamagotchi.Controllers
                                             Console.WriteLine($"Digite o nome do mascote (ex: ´pikachu')");
 
                                             Task<Creature> search = TamagotchiService.GetCreatureJsonObjAsync(Console.ReadLine());
-                                            creature = search.Result;
+                                            Creature creature = search.Result;
 
                                             char subopt2 = '1';
                                             while (subopt2 == '1')
                                             {
-
-                                                view.SelectedCreatureMenu(userName, creature);
+                                                TamagotchiView.SelectedCreatureMenu(userName, creature);
                                                 subopt2 = char.Parse(Console.ReadLine().ToUpper());
 
                                                 switch (subopt2)
                                                 {
                                                     case '1':
                                                         {
-                                                            view.ViewCreatureDetailsSubMenu(creature);
+                                                            TamagotchiView.ViewCreatureDetailsSubMenu(creature);
                                                             break;
                                                         }
 
                                                     case '2':
                                                         {
-                                                            view.AdoptSubMenu(myCreatures, creature);
+                                                            TamagotchiView.AdoptSubMenu(myCreatures, creature);
                                                             break;
                                                         }
 
@@ -140,7 +187,7 @@ namespace Tamagotchi.Controllers
 
                     case '2':
                         {
-                            view.MyCreaturesMenu(myCreatures);
+                            TamagotchiView.MyCreaturesMenu(myCreatures);
                             break;
                         }
 
@@ -150,13 +197,18 @@ namespace Tamagotchi.Controllers
                             Console.WriteLine($"Finalizando...");
                             break;
                         }
-
-
-
                 }
+                
+             
             }
 
-            
+
+
+
+
+
+
+            */
         }
     }
 }

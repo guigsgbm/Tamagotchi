@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tamagotchi.Services;
 
 namespace Tamagotchi
 {
     public class Creature
     {
-        //private Random random = new Random();
+        private Random random = new Random();
+
         public Creature()
         {
             this._happiness = random.Next(20,100);
             this._hunger = random.Next(20, 100);
             this._rest = random.Next(20, 100);
         }
-
-        private Random random = new Random();
-
+        
 
         public Ability[] abilities { get; set; }
         public string name { get; set; }

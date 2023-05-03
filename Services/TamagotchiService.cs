@@ -10,8 +10,8 @@ namespace Tamagotchi.Services
 {
     public class TamagotchiService
     {
-        
-        public static async Task<Creature> GetCreatureJsonObjAsync(string creatureName)
+
+        public static Creature GetCreatureJsonObjAsync(string creatureName)
         {
             creatureName = creatureName.ToLower();
 
@@ -19,9 +19,9 @@ namespace Tamagotchi.Services
             {
                 BaseAddress = new Uri($"https://pokeapi.co/api/v2/pokemon/ + {creatureName}")
             };
-            Creature creature = await client.GetFromJsonAsync<Creature>(creatureName).ConfigureAwait(false);
+            var creature = client.GetFromJsonAsync<Creature>(creatureName);
 
-            return creature;
+            return creature.Result;
         }
     }
 }

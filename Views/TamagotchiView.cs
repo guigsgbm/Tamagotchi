@@ -1,20 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Net.Http.Json;
-using Tamagotchi.Services;
-
-
-
-namespace Tamagotchi.Views
+﻿namespace Tamagotchi.Views
 {
     public  class TamagotchiView
     {
-        Iterations iterations = new Iterations();
 
-        public void WelcomeMenu()
+        public static void WelcomeMenu()
         {
 
             Console.WriteLine("   _______                                _       _     _   ");
@@ -32,7 +21,7 @@ namespace Tamagotchi.Views
         }
 
 
-        public void MainMenu(string userName)
+        public static void MainMenu(string userName)
         {
             Console.Clear();
             Console.WriteLine($"- - - - - - - - - - BEM VINDO, {userName} - - - - - - - - - -");
@@ -44,41 +33,43 @@ namespace Tamagotchi.Views
 
 
 
-
-
-        public void AdoptNewCreatureMenu(string userName, List<Creature> creatureList)
+        public static void AdoptCreatureMenu(string userName)
         {
-
             Console.Clear();
-            Console.WriteLine($"{userName}, escolha um mascote ou pesquise outro pelo nome (ex: 'pikachu')");
-           foreach (Creature creature in creatureList)
-            {
-                Console.WriteLine($"{creatureList.IndexOf(creature)+1} - {creature.name}");
-            }
-            Console.WriteLine($"\nP - Pesquisar");
+            Console.WriteLine($"{userName}, escolha um mascote ou pesquise pelo nome");
+
+            DefaultCreatures.GetCreatures();
+
+            Console.WriteLine($"P - Pesquisar");
             Console.WriteLine($"X - Voltar");
         }
 
-        public void SelectedCreatureMenu(string userName, Creature selectedCreature)
+        public static void AdoptCreatureSearchMenu(string username)
         {
             Console.Clear();
-            Console.WriteLine($"O mascote escolhido foi {selectedCreature.name}");
-            Console.WriteLine($"{userName} o que deseja fazer:");
-            Console.WriteLine($"1 - Ver caracteristicas");
-            Console.WriteLine($"2 - Adotar {selectedCreature.name}");
+
+            Console.WriteLine($"Digite o nome do mascote (ex: pikachu)");
+        }
+
+        public static void AdoptCreatureSelectedMenu(Creature creature)
+        {
+            Console.Clear();
+            Console.WriteLine($"O mascote escolhido foi: {creature.name.ToUpper()}");
+            Console.WriteLine($"O que deseja fazer ?");
+
+            Console.WriteLine($"1 - Adotar");
+            Console.WriteLine($"2 - Ver status");
             Console.WriteLine($"X - Voltar");
         }
         
 
-        public async void ViewCreatureDetailsSubMenu(Creature creature)
+        public static void CreatureStatusMenu(Creature creature)
         {
-
             Console.Clear();
             Console.WriteLine($"Informacoes Basicas");
             Console.WriteLine($"Nome: {creature.name.ToUpper()}");
             Console.WriteLine($"Altura: {creature.height}");
             Console.WriteLine($"Peso: {creature.weight}");
-
 
             Console.WriteLine("\n" + $"Tipo");
             foreach (Tamagotchi.Type type in creature.types)
@@ -98,7 +89,7 @@ namespace Tamagotchi.Views
 
         
 
-        public void AdoptSubMenu(List<Creature> myCreatures, Creature creature)
+        public static void AdoptedCreatureMenu()
         {
             Console.Clear();
             Console.WriteLine($"Mascote adotado com sucesso!!!\n");
@@ -121,76 +112,70 @@ namespace Tamagotchi.Views
             Console.WriteLine("                ████        ████                              ");
             Console.WriteLine("                    ████████                                  ");
 
-            myCreatures.Add(creature);
             Console.ReadKey();
         }
 
 
 
-        public void MyCreaturesMenu(List<Creature> myCreatures)
+        public static void MyCreaturesMenu(List<Creature> myCreatures)
         {
             Console.Clear();
 
-            int indexMyCreatureSelected = 1;
-
             Console.WriteLine($"Meus mascotes:\n");
-            foreach (Creature myCreature in myCreatures)
-            {
-                Console.WriteLine($"{indexMyCreatureSelected} - {myCreature.name} - " +
-                    $"Happiness:{myCreature.Happiness} | Hunger:{myCreature.Hunger} | Rest:{myCreature.Rest}");
-                indexMyCreatureSelected++;
-            }
-            Console.WriteLine("X - Voltar");
-            
-            indexMyCreatureSelected = int.Parse(Console.ReadLine());
-            Creature myCreatureSelected = myCreatures[indexMyCreatureSelected-1];
 
+            foreach (Creature creature in myCreatures)
+            {
+                Console.WriteLine($"{myCreatures.IndexOf(creature)} - {creature.name} - " +
+                    $"Happiness:{creature.Happiness} | Hunger:{creature.Hunger} | Rest:{creature.Rest}");
+            }
+
+            Console.WriteLine("X - Voltar");
+        }
+
+        public static void MyCreatureSelectedMenu(Creature myCreature)
+        {
             Console.Clear();
-            Console.WriteLine($"O QUE DESEJA FAZER COM O MASCOTE: {myCreatureSelected.name.ToUpper()}");
+
+            Console.WriteLine($"O que deseja fazer com o mascote: {myCreature.name.ToUpper()} ?");
             Console.WriteLine($"1 - ALIMENTAR");
             Console.WriteLine($"2 - BRINCAR");
             Console.WriteLine($"3 - DESCANSAR");
             Console.WriteLine($"X - Voltar");
+        }
 
-            var option = char.Parse(Console.ReadLine());
+        public static void FeedCreatureMenu(Creature myCreature, int myCreaturePreHunger)
+        {
+            Console.Clear();
 
-            switch (option)
-            {
-                case '1':
-                    {
-                        Console.Clear();
-                        Console.WriteLine($"Alimentando {myCreatureSelected.name}".ToUpper());
-                        Iterations.FeedCreature(myCreatureSelected);
-                        Console.ReadKey();
-                        break;
-                    }
+            Console.WriteLine($"Alimentando {myCreature.name.ToUpper()}...");
+            Console.WriteLine($"{myCreaturePreHunger} > {myCreature.Hunger}");
+            Console.ReadKey();
+        }
 
-                case '2':
-                    {
-                        Console.Clear();
-                        Console.WriteLine($"Brincando com {myCreatureSelected.name}".ToUpper());
-                        Iterations.PlayWithCreature(myCreatureSelected);
-                        Console.ReadKey();
-                        break;
-                    }
+        public static void PlayWithCreatureMenu(Creature myCreature, int myCreaturePreHappiness)
+        {
+            Console.Clear();
 
-                case '3':
-                    {
-                        Console.Clear();
-                        Console.WriteLine($"{myCreatureSelected.name} foi nanar".ToUpper());
-                        Iterations.RestCreature(myCreatureSelected);
-                        Console.ReadKey();
-                        break;
-                    }
+            Console.WriteLine($"Brincando com {myCreature.name.ToUpper()}...");
+            Console.WriteLine($"{myCreaturePreHappiness} > {myCreature.Happiness}");
+            Console.ReadKey();
+        }
 
-                case 'X':
-                    { break;}
+        public static  void RestMenu(Creature myCreature, int myCreaturePreRest)
+        {
+            Console.Clear();
 
-            }
+            Console.WriteLine($"{myCreature.name.ToUpper()} foi descansar...");
+            Console.WriteLine($"{myCreaturePreRest} > {myCreature.Rest}");
+            Console.ReadKey();
         }
 
 
-
+        public static void Exit (string username)
+        {
+            Console.WriteLine($"Tchau {username}, encerrando...");
+            Console.ReadKey();
+        }
 
 
     }

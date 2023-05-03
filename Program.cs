@@ -1,24 +1,13 @@
-﻿using System.Net.Http.Json;
-using Tamagotchi;
-using Tamagotchi.Views;
-using Tamagotchi.Services;
+﻿using Tamagotchi;
 using Tamagotchi.Controllers;
 
 
 List<Creature> myCreatures = new List<Creature>();
-TamagotchiView view = new TamagotchiView();
-Creature creature = new Creature();
-
-List<Creature> defaultCreatureList = new List<Creature>();
-defaultCreatureList.Add(await TamagotchiService.GetCreatureJsonObjAsync($"pikachu"));
-defaultCreatureList.Add(await TamagotchiService.GetCreatureJsonObjAsync($"charizard"));
-defaultCreatureList.Add(await TamagotchiService.GetCreatureJsonObjAsync($"charmander"));
-defaultCreatureList.Add(await TamagotchiService.GetCreatureJsonObjAsync($"eevee"));
 
 
 TamagotchiController play = new TamagotchiController();
 
-play.Play(defaultCreatureList);
+play.Play(DefaultCreatures.defaultCreatures);
 
 
 
