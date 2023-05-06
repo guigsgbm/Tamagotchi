@@ -1,13 +1,11 @@
 ﻿using Tamagotchi;
 using Tamagotchi.Controllers;
-
+using Tamagotchi.Models;
 
 List<Creature> myCreatures = new List<Creature>();
 
-
-TamagotchiController play = new TamagotchiController();
-
-play.Play(DefaultCreatures.defaultCreatures);
+MyAccount.Creatures = new();
+TamagotchiController.Play(DefaultCreatures.defaultCreatures);
 
 
 

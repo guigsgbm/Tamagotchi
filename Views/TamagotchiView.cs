@@ -1,6 +1,6 @@
 ﻿namespace Tamagotchi.Views
 {
-    public  class TamagotchiView
+    public static class TamagotchiView
     {
 
         public static void WelcomeMenu()
@@ -125,7 +125,7 @@
 
             foreach (Creature creature in myCreatures)
             {
-                Console.WriteLine($"{myCreatures.IndexOf(creature)} - {creature.name} - " +
+                Console.WriteLine($"{myCreatures.IndexOf(creature) +1} - {creature.name.ToUpper()} - " +
                     $"Happiness:{creature.Happiness} | Hunger:{creature.Hunger} | Rest:{creature.Rest}");
             }
 
@@ -143,30 +143,27 @@
             Console.WriteLine($"X - Voltar");
         }
 
-        public static void FeedCreatureMenu(Creature myCreature, int myCreaturePreHunger)
+        public static void FeedCreatureMenu(Creature myCreature)
         {
             Console.Clear();
 
             Console.WriteLine($"Alimentando {myCreature.name.ToUpper()}...");
-            Console.WriteLine($"{myCreaturePreHunger} > {myCreature.Hunger}");
             Console.ReadKey();
         }
 
-        public static void PlayWithCreatureMenu(Creature myCreature, int myCreaturePreHappiness)
+        public static void PlayWithCreatureMenu(Creature myCreature)
         {
             Console.Clear();
 
             Console.WriteLine($"Brincando com {myCreature.name.ToUpper()}...");
-            Console.WriteLine($"{myCreaturePreHappiness} > {myCreature.Happiness}");
             Console.ReadKey();
         }
 
-        public static  void RestMenu(Creature myCreature, int myCreaturePreRest)
+        public static  void RestMenu(Creature myCreature)
         {
             Console.Clear();
 
             Console.WriteLine($"{myCreature.name.ToUpper()} foi descansar...");
-            Console.WriteLine($"{myCreaturePreRest} > {myCreature.Rest}");
             Console.ReadKey();
         }
 

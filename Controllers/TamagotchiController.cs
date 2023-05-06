@@ -1,23 +1,23 @@
 ﻿using Tamagotchi.Views;
 using Tamagotchi.Services;
+using Tamagotchi.Models;
 
 namespace Tamagotchi.Controllers
 {
-    public class TamagotchiController
+    public static class TamagotchiController
     {
-        public static string Username { get; set; }
-        private char option {get; set;}
+        private static char option {get; set;}
+       
 
-        public void Play(List<string> defaultCreatures)
+        public static void Play(List<string> defaultCreatures)
         {
 
             TamagotchiView.WelcomeMenu();
-            Username = Console.ReadLine();
-
+            MyAccount.Username = Console.ReadLine();
 
             while (option != 'X')
             {
-                TamagotchiView.MainMenu(Username);
+                TamagotchiView.MainMenu(MyAccount.Username);
                 option = char.Parse(Console.ReadLine().ToUpper());
 
                 switch (option)
@@ -30,17 +30,15 @@ namespace Tamagotchi.Controllers
 
                     case '2':
                         {
-
+                            ViewMyCreaturesController.ViewMyCreatures();
                             break;
                         }
 
                     case 'X':
                         {
-                            TamagotchiView.Exit(Username);
+                            TamagotchiView.Exit(MyAccount.Username);
                             break;
                         }
-
-
 
 
                 }
